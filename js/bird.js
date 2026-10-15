@@ -46,7 +46,7 @@
     const fluff = 1 + 9 * tC;
 
     // Head
-    const hr = 16 + 10 * tA;
+    const hr = 15 + 13 * tA;
     const hx = bx + bodyRx * 0.8, hy = by - bodyRy * 0.78;
 
     let svg = '';
@@ -116,10 +116,9 @@
     if (fluff >= 2) svg += fluffRing(hx, hy, hr, hr, fluff * 0.6, 14, body, -Math.PI * 0.95, Math.PI * 0.35);
     svg += '<circle cx="' + n(hx) + '" cy="' + n(hy) + '" r="' + n(hr) + '" fill="' + body + '"/>';
 
-    // Brain, seen through a window in the side of the head
-    const wx = hx - hr * 0.24, wy = hy - hr * 0.14, wr = hr * 0.56;
-    svg += '<circle cx="' + n(wx) + '" cy="' + n(wy) + '" r="' + n(wr) + '" class="bird-skull"/>';
-    const br = wr * (0.12 + 0.86 * tA);
+    // Brain, seen through the side of the head: a speck at 0, most of the head at 15
+    const wx = hx - hr * 0.2, wy = hy - hr * 0.1, wr = hr * 0.62;
+    const br = wr * (0.08 + 0.92 * tA);
     svg += '<ellipse cx="' + n(wx) + '" cy="' + n(wy + wr * 0.05) + '" rx="' + n(br) + '" ry="' + n(br * 0.8) + '" class="bird-brain"/>';
     if (br > 4) {
       svg += '<path d="M' + n(wx - br * 0.7) + ',' + n(wy - br * 0.05) + ' q' + n(br * 0.35) + ',' + n(-br * 0.45) + ' ' + n(br * 0.7) + ',0 t' +
@@ -129,7 +128,7 @@
     }
 
     // Eye
-    const ex = hx + hr * 0.5, ey = hy - hr * 0.06;
+    const ex = hx + hr * 0.6, ey = hy - hr * 0.08;
     svg += '<circle cx="' + n(ex) + '" cy="' + n(ey) + '" r="3.4" class="bird-eye"/>';
     svg += '<circle cx="' + n(ex + 1) + '" cy="' + n(ey - 1.1) + '" r="1.1" fill="#fff"/>';
 

@@ -79,9 +79,9 @@
       image: 'images/biomes/volcano.jpg',
       scene: 'linear-gradient(180deg,#f2b8a0 0%,#a65a48 55%,#3d2a2a 100%)',
       blurb: 'Bare lava fields and hunting hawks. A bird can outrun them or outwit them by hiding in lava tubes, but doing both is a waste. Running is the easy answer; cleverness pays more.',
-      formula: 'A²/3 + 4D − AD/2 + 2B − B²/8 − C',
+      formula: 'A²/3 + 4D − AD/3 + 2B − B²/8 − C',
       fitness: function (A, B, C, D) {
-        return sq(A) / 3 + 4 * D - (A * D) / 2 + 2 * B - sq(B) / 8 - C;
+        return sq(A) / 3 + 4 * D - (A * D) / 3 + 2 * B - sq(B) / 8 - C;
       },
       mutationRate: 0.015,
       pace: 'Very slow',

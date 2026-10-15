@@ -137,12 +137,22 @@
       biome: biome, size: size, seed: seed, rng: rng, landscape: landscape,
       gray: !!(options && options.gray), generation: 1, population: [], died: [], history: []
     };
-    const ceiling = options && options.founderCeiling != null ? options.founderCeiling : Infinity;
+    // options.founderDistance: every founder gene is at least this far (0-15 scale)
+    // from the island's ideal, so the first birds look and score clearly worse.
+    const distance = (options && options.founderDistance) || 0;
     while (run.population.length < size) {
-      const bits = [];
-      for (let b = 0; b < CHROMOSOME_BITS; b++) bits.push(rng.int(2));
-      const bird = makeBird(run, bits, 1, 'founder');
-      if (percentOfIdeal(landscape, bird.fitness) < ceiling) run.population.push(bird);
+      let bits = [];
+      if (distance > 0) {
+        const genes = landscape.idealGenes.map(function (ideal) {
+          const far = [];
+          for (let v = 0; v <= GENE_MAX; v++) if (Math.abs(v - ideal) >= distance) far.push(v);
+          return far[rng.int(far.length)];
+        });
+        bits = genesToBits(genes, run.gray);
+      } else {
+        for (let b = 0; b < CHROMOSOME_BITS; b++) bits.push(rng.int(2));
+      }
+      run.population.push(makeBird(run, bits, 1, 'founder'));
     }
     const first = summarise(run);
     run.history.push(first);

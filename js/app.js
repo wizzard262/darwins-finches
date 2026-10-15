@@ -85,9 +85,10 @@
 
   // ---------- Running ----------
 
-  // Mainland strays: every founder scores below an average random bird (0%).
+  // Mainland strays: every gene of every founder is at least 7 steps (of 15) from the island's ideal.
+  const STRAY_DISTANCE = 7;
   function runOptions() {
-    return { gray: state.gray, founderCeiling: state.strays ? 0 : null };
+    return { gray: state.gray, founderDistance: state.strays ? STRAY_DISTANCE : 0 };
   }
 
   function restart() {

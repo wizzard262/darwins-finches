@@ -32,7 +32,6 @@
   --bird-leg: #6e5444;
   --bird-brain: #f3a9b8;
   --bird-brain-line: #b8607a;
-  --bird-skull: rgba(255, 244, 236, 0.75);
   --bird-shadow: rgba(60, 40, 20, 0.14);
   --shadow: 0 1px 2px rgba(50, 35, 15, 0.06), 0 4px 16px rgba(50, 35, 15, 0.06);
   --radius: 14px;
@@ -258,7 +257,6 @@ table.compact { font-size: 0.82rem; margin-top: 10px; }
 .bird-beak { fill: var(--bird-beak); stroke: var(--bird-line); stroke-width: 1.1; stroke-linejoin: round; }
 .bird-beak-lower { fill: var(--bird-beak-2); }
 .bird-mark { fill: none; stroke: rgba(58, 42, 28, 0.45); stroke-width: 1.1; stroke-linecap: round; }
-.bird-skull { fill: var(--bird-skull); stroke: var(--bird-line); stroke-width: 1; stroke-dasharray: 3 2; }
 .bird-brain { fill: var(--bird-brain); stroke: var(--bird-brain-line); stroke-width: 1.1; }
 .bird-brain-fold { fill: none; stroke: var(--bird-brain-line); stroke-width: 1; stroke-linecap: round; }
 .bird-eye { fill: #1b130c; }
