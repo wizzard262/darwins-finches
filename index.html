@@ -15,7 +15,7 @@
     <div class="wrap">
       <p class="eyebrow">A genetic algorithm</p>
       <h1>Darwin’s Finches</h1>
-      <p class="lede">Pick an island, release some random finches and watch natural selection shape them, one generation at a time.</p>
+      <p class="lede">Pick an island, release a flock of storm-blown mainland finches and watch natural selection shape them, one generation at a time.</p>
       <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch light or dark theme">◐</button>
     </div>
   </header>
@@ -48,6 +48,13 @@
         </div>
       </div>
       <div class="control">
+        <label for="founders">Founders</label>
+        <select id="founders">
+          <option value="strays">Mainland strays</option>
+          <option value="random">Random birds</option>
+        </select>
+      </div>
+      <div class="control">
         <label for="encoding">Gene encoding</label>
         <select id="encoding">
           <option value="gray">Gray code (smooth)</option>
@@ -74,7 +81,7 @@
     <section class="panel" aria-labelledby="graphTitle">
       <div class="panel-head">
         <h2 id="graphTitle"><span class="step">2</span> Fitness by generation</h2>
-        <p class="hint">100% is the island’s ideal bird, 0% an average random bird. Hover for the raw scores.</p>
+        <p class="hint">100% is the island’s ideal bird, 0% an average random bird, below 0% worse than average. Hover for the raw scores.</p>
       </div>
       <div class="legend" aria-hidden="true">
         <span><i class="swatch s-max"></i>Fittest bird</span>
@@ -142,6 +149,10 @@
         <div>
           <h3>The chromosome</h3>
           <p>Each finch carries 16 bits: four genes of four bits, so each gene is a number from 0 to 15. That makes 65,536 possible birds. The page scores every one of them, so it knows each island’s ideal bird in advance.</p>
+        </div>
+        <div>
+          <h3>The founders</h3>
+          <p>The first finches are storm-blown strays from the mainland, suited to somewhere else: each founder scores below an average bird for its new island. Switch <b>Founders</b> to <i>Random birds</i> and a lucky founder often starts close to the ideal.</p>
         </div>
         <div>
           <h3>Selection</h3>

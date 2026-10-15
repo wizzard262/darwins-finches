@@ -6,7 +6,7 @@
 (function (F) {
   'use strict';
 
-  const GROUND = 158;
+  const GROUND = 196;
 
   function n(x) { return Math.round(x * 10) / 10; }
 
@@ -39,13 +39,14 @@
     const belly = mix('#ecd9bd', '#e3c79c', tC);
 
     // Legs and body
-    const legLen = 12 + 40 * tD;
-    const bodyRx = 38 + 4 * tC, bodyRy = 24 + 4 * tC;
+    const legLen = 4 + 86 * tD;
+    const legWidth = 3.4 - 1.6 * tD;
+    const bodyRx = 37 + 6 * tC, bodyRy = 23 + 6 * tC;
     const bx = 90, by = GROUND - legLen - bodyRy + 6;
-    const fluff = 1 + 6.5 * tC;
+    const fluff = 1 + 9 * tC;
 
     // Head
-    const hr = 18 + 6 * tA;
+    const hr = 16 + 10 * tA;
     const hx = bx + bodyRx * 0.8, hy = by - bodyRy * 0.78;
 
     let svg = '';
@@ -68,9 +69,9 @@
       const kneeX = hipX - 4, kneeY = hipY + legLen * 0.5;
       const footX = hipX + 2;
       svg += '<polyline points="' + n(hipX) + ',' + n(hipY) + ' ' + n(kneeX) + ',' + n(kneeY) + ' ' + n(footX) + ',' + GROUND +
-        '" class="bird-leg"/>';
+        '" class="bird-leg" stroke-width="' + n(legWidth) + '"/>';
       svg += '<path d="M' + n(footX) + ',' + GROUND + ' l9,0 M' + n(footX) + ',' + GROUND + ' l6,-3 M' + n(footX) + ',' + GROUND +
-        ' l-6,0" class="bird-leg"/>';
+        ' l-6,0" class="bird-leg" stroke-width="' + n(legWidth) + '"/>';
     });
 
     // Tail
@@ -80,8 +81,8 @@
       ',' + n(by - 4) + ' L' + n(tailX) + ',' + n(by + tailW) + ' Z" fill="' + wing + '" class="bird-line"/>';
 
     // Beak (drawn before the head so the head covers its base)
-    const beakLen = 18 + 32 * tB + fluff * 0.6;
-    const beakH = 11 - 8 * tB;
+    const beakLen = 14 + 70 * tB + fluff * 0.6;
+    const beakH = 14 - 12.5 * tB;
     const kx = hx + hr * 0.82, ky = hy + hr * 0.2;
     svg += '<path d="M' + n(kx) + ',' + n(ky - beakH) + ' Q' + n(kx + beakLen * 0.55) + ',' + n(ky - beakH * 0.85) + ' ' +
       n(kx + beakLen) + ',' + n(ky + beakH * 0.15) + ' L' + n(kx) + ',' + n(ky) + ' Z" class="bird-beak"/>';
@@ -118,7 +119,7 @@
     // Brain, seen through a window in the side of the head
     const wx = hx - hr * 0.24, wy = hy - hr * 0.14, wr = hr * 0.56;
     svg += '<circle cx="' + n(wx) + '" cy="' + n(wy) + '" r="' + n(wr) + '" class="bird-skull"/>';
-    const br = wr * (0.22 + 0.74 * tA);
+    const br = wr * (0.12 + 0.86 * tA);
     svg += '<ellipse cx="' + n(wx) + '" cy="' + n(wy + wr * 0.05) + '" rx="' + n(br) + '" ry="' + n(br * 0.8) + '" class="bird-brain"/>';
     if (br > 4) {
       svg += '<path d="M' + n(wx - br * 0.7) + ',' + n(wy - br * 0.05) + ' q' + n(br * 0.35) + ',' + n(-br * 0.45) + ' ' + n(br * 0.7) + ',0 t' +
@@ -133,7 +134,7 @@
     svg += '<circle cx="' + n(ex + 1) + '" cy="' + n(ey - 1.1) + '" r="1.1" fill="#fff"/>';
 
     const label = opts.label || ('Finch: brain ' + genes[0] + ', beak ' + genes[1] + ', feathers ' + genes[2] + ', speed ' + genes[3]);
-    return '<svg class="bird' + (opts.className ? ' ' + opts.className : '') + '" viewBox="0 0 220 170" role="img" aria-label="' +
+    return '<svg class="bird' + (opts.className ? ' ' + opts.className : '') + '" viewBox="0 0 260 210" role="img" aria-label="' +
       label + '">' + svg + '</svg>';
   }
 

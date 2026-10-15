@@ -1,6 +1,6 @@
 # Darwin's Finches
 
-Darwinian evolution shown with a genetic algorithm. Pick an island, release some random finches and watch natural selection shape them one generation at a time.
+Darwinian evolution shown with a genetic algorithm. Pick an island, release a flock of storm-blown mainland finches and watch natural selection shape them one generation at a time.
 
 Plain HTML, CSS and JavaScript with no build step. Open `index.html` in a browser, or use the GitHub Pages site.
 
@@ -37,6 +37,10 @@ Each formula has trade-offs, so not every gene is best at 0 or 15:
 
 Fitness is shown both as the raw score and as a percentage: 100% is the island's ideal bird and 0% is the average of all 65,536 possible birds.
 
+## The founders
+
+Darwin's finches descend from a few birds that reached the Galápagos from the mainland. Here the first birds are storm-blown strays, suited to somewhere else: every founder scores below an average random bird for its new island, so generation 1 starts at or below 0% and the climb to the ideal is easy to see. Set **Founders** to *Random birds* to start from purely random birds instead; with 20 of them, the luckiest one is typically already 55–90% of the way to the ideal.
+
 ## One generation
 
 1. Rank the birds by fitness (ties broken at random).
@@ -51,20 +55,21 @@ Because the survivors carry on, the fittest bird never gets worse.
 
 In plain binary, 7 is `0111` and 8 is `1000`, so a one-step change in a trait needs all four bits to flip at once. Evolution often stalls just short of the ideal (a "Hamming cliff"). By default the genes are read as Gray code, where neighbouring numbers always differ by one bit. It is still a 16-bit binary chromosome, only read differently. Switch **Gene encoding** to *Plain binary* to compare.
 
-Simulated over 150 runs per setting (600-generation limit):
+Simulated over 150 runs per setting with mainland-stray founders (600-generation limit):
 
 | Sandspit, birds | 4 | 12 | 20 | 40 |
 |---|---|---|---|---|
-| Gray code: median generations to ideal | 67 | 27 | 20 | 15 |
+| Gray code: median generations to ideal | 77 | 33 | 25 | 21 |
 | Gray code: runs stuck | 0% | 0% | 0% | 0% |
-| Plain binary: median generations to ideal | 430 | 74 | 35 | 18 |
-| Plain binary: runs stuck | 37% | 9% | 2% | 0% |
+| Plain binary: median generations to ideal | 264 | 86 | 46 | 21 |
+| Plain binary: runs stuck | 31% | 13% | 1% | 0% |
 
-On Oakhaven in plain binary, 73% of 4-bird runs and 24% of 40-bird runs never found the ideal. With Gray code none got stuck.
+On Oakhaven in plain binary, 74% of 4-bird runs and 28% of 40-bird runs never found the ideal. With Gray code, 1% of 4-bird runs got stuck and none of the larger ones.
 
 ## Controls
 
 - **Population:** 4 to 40 birds.
+- **Founders:** mainland strays (below average, the default) or random birds.
 - **Seed:** the same seed, island and settings always replay the same run. 🎲 picks a new one.
 - **Next generation / Auto-run / Restart.** Auto-run stops when the ideal bird is found (or after 1,000 generations).
 - **Evolution lab:** *Race all five islands* runs each island 40 times and plots the share of runs that have found the ideal by each generation. *Does a bigger population help?* runs the chosen island 40 times at each population size and charts the median generations to the ideal.

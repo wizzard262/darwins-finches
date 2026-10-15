@@ -19,6 +19,7 @@
     size: 20,
     seed: F.randomSeed(),
     gray: true,
+    strays: true,
     run: null,
     timer: null,
     foundAt: null,
@@ -84,9 +85,14 @@
 
   // ---------- Running ----------
 
+  // Mainland strays: every founder scores below an average random bird (0%).
+  function runOptions() {
+    return { gray: state.gray, founderCeiling: state.strays ? 0 : null };
+  }
+
   function restart() {
     stopAuto();
-    state.run = GA.createRun(state.biome, state.size, state.seed, { gray: state.gray });
+    state.run = GA.createRun(state.biome, state.size, state.seed, runOptions());
     state.foundAt = GA.reachedIdeal(state.run) ? 1 : null;
     state.lastGain = 1;
     rebuildFitnessChart();
@@ -291,7 +297,7 @@
   const pause = function () { return new Promise(function (resolve) { setTimeout(resolve, 0); }); };
 
   function timeToIdeal(biome, size, seed, cap) {
-    const run = GA.createRun(biome, size, seed, { gray: state.gray });
+    const run = GA.createRun(biome, size, seed, runOptions());
     while (!GA.reachedIdeal(run) && run.generation < cap) GA.step(run);
     return GA.reachedIdeal(run) ? run.generation : Infinity;
   }
@@ -468,6 +474,7 @@
     });
 
     $('encoding').addEventListener('change', function () { state.gray = this.value === 'gray'; restart(); });
+    $('founders').addEventListener('change', function () { state.strays = this.value === 'strays'; restart(); });
 
     $('stepBtn').addEventListener('click', function () { stopAuto(); nextGeneration(); });
     $('autoBtn').addEventListener('click', function () { state.timer ? stopAuto() : startAuto(); });

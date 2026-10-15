@@ -137,10 +137,12 @@
       biome: biome, size: size, seed: seed, rng: rng, landscape: landscape,
       gray: !!(options && options.gray), generation: 1, population: [], died: [], history: []
     };
-    for (let i = 0; i < size; i++) {
+    const ceiling = options && options.founderCeiling != null ? options.founderCeiling : Infinity;
+    while (run.population.length < size) {
       const bits = [];
       for (let b = 0; b < CHROMOSOME_BITS; b++) bits.push(rng.int(2));
-      run.population.push(makeBird(run, bits, 1, 'founder'));
+      const bird = makeBird(run, bits, 1, 'founder');
+      if (percentOfIdeal(landscape, bird.fitness) < ceiling) run.population.push(bird);
     }
     const first = summarise(run);
     run.history.push(first);
