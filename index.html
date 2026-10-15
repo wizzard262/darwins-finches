@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Darwin's Finches</title>
+  <meta name="description" content="Darwinian evolution shown with a genetic algorithm: finches evolve to fit five island biomes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap">
+      <p class="eyebrow">A genetic algorithm</p>
+      <h1>Darwin’s Finches</h1>
+      <p class="lede">Pick an island, release some random finches and watch natural selection shape them, one generation at a time.</p>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch light or dark theme">◐</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- 1. Islands -->
+    <section class="panel" aria-labelledby="islandsTitle">
+      <div class="panel-head">
+        <h2 id="islandsTitle"><span class="step">1</span> Choose an island</h2>
+        <p class="gene-key">
+          <span><b>A</b> Brain</span><span><b>B</b> Beak <small>(0 short &amp; fat … 15 long &amp; thin)</small></span>
+          <span><b>C</b> Feathers</span><span><b>D</b> Speed</span>
+        </p>
+      </div>
+      <div class="islands" id="islands" role="radiogroup" aria-label="Island"></div>
+    </section>
+
+    <!-- 2. Controls -->
+    <section class="panel controls" aria-labelledby="controlsTitle">
+      <h2 id="controlsTitle" class="visually-hidden">Controls</h2>
+      <div class="control">
+        <label for="popSize">Population</label>
+        <select id="popSize"></select>
+      </div>
+      <div class="control">
+        <label for="seed">Seed</label>
+        <div class="seed-row">
+          <input id="seed" type="text" spellcheck="false" autocomplete="off">
+          <button type="button" class="btn icon" id="newSeed" title="New random seed" aria-label="New random seed">🎲</button>
+        </div>
+      </div>
+      <div class="control">
+        <label for="encoding">Gene encoding</label>
+        <select id="encoding">
+          <option value="gray">Gray code (smooth)</option>
+          <option value="binary">Plain binary</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="speed">Auto-run speed</label>
+        <select id="speed">
+          <option value="600">Slow</option>
+          <option value="220" selected>Normal</option>
+          <option value="40">Fast</option>
+        </select>
+      </div>
+      <div class="buttons">
+        <button type="button" class="btn primary" id="stepBtn">Next generation</button>
+        <button type="button" class="btn" id="autoBtn">▶ Auto-run</button>
+        <button type="button" class="btn" id="resetBtn">↺ Restart</button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 3. Graph -->
+    <section class="panel" aria-labelledby="graphTitle">
+      <div class="panel-head">
+        <h2 id="graphTitle"><span class="step">2</span> Fitness by generation</h2>
+        <p class="hint">100% is the island’s ideal bird, 0% an average random bird. Hover for the raw scores.</p>
+      </div>
+      <div class="legend" aria-hidden="true">
+        <span><i class="swatch s-max"></i>Fittest bird</span>
+        <span><i class="swatch s-avg"></i>Population average</span>
+        <span><i class="swatch s-ideal"></i>Ideal (100%)</span>
+      </div>
+      <div class="chart-box"><canvas id="fitnessChart" aria-label="Line chart of the fittest bird and the population average, as a percentage of the ideal, for each generation"></canvas></div>
+      <details class="data-table">
+        <summary>Show as a table</summary>
+        <div class="table-scroll"><table id="historyTable"></table></div>
+      </details>
+    </section>
+
+    <!-- 4. Three birds -->
+    <section class="panel" aria-labelledby="birdsTitle">
+      <h2 id="birdsTitle" class="visually-hidden">Fittest birds</h2>
+      <div class="birds" id="birds"></div>
+    </section>
+
+    <!-- 5. Population -->
+    <section class="panel" aria-labelledby="popTitle">
+      <div class="panel-head">
+        <h2 id="popTitle"><span class="step">3</span> The island’s population</h2>
+        <p class="legend small">
+          <span><i class="tag-dot t-survivor"></i>Survived</span>
+          <span><i class="tag-dot t-newborn"></i>Newborn</span>
+          <span><i class="tag-dot t-founder"></i>Founder</span>
+          <span><i class="tag-dot t-died"></i>Died</span>
+        </p>
+      </div>
+      <div class="grid" id="population"></div>
+      <h3 class="died-title" id="diedTitle" hidden>Died last generation</h3>
+      <div class="grid died" id="died"></div>
+    </section>
+
+    <!-- 6. Lab -->
+    <section class="panel" aria-labelledby="labTitle">
+      <div class="panel-head">
+        <h2 id="labTitle"><span class="step">4</span> Evolution lab</h2>
+        <p class="hint">Single runs are luck. These run the simulation 40 times over and average it out.</p>
+      </div>
+      <div class="lab">
+        <div class="lab-card">
+          <h3>Race all five islands</h3>
+          <p>Same population size on every island. How quickly do the runs find the ideal bird?</p>
+          <button type="button" class="btn" id="raceBtn">Run the race</button>
+          <p class="lab-status" id="raceStatus"></p>
+          <div class="chart-box short"><canvas id="raceChart" aria-label="Line chart: share of runs that have found the ideal bird, by generation, one line per island"></canvas></div>
+          <div class="table-scroll"><table id="raceTable" class="compact"></table></div>
+        </div>
+        <div class="lab-card">
+          <h3>Does a bigger population help?</h3>
+          <p>The chosen island at every population size, from 4 to 40 birds.</p>
+          <button type="button" class="btn" id="sweepBtn">Run the sweep</button>
+          <p class="lab-status" id="sweepStatus"></p>
+          <div class="chart-box short"><canvas id="sweepChart" aria-label="Bar chart: median generations to find the ideal bird, by population size"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. How it works -->
+    <section class="panel how" aria-labelledby="howTitle">
+      <h2 id="howTitle">How it works</h2>
+      <div class="how-grid">
+        <div>
+          <h3>The chromosome</h3>
+          <p>Each finch carries 16 bits: four genes of four bits, so each gene is a number from 0 to 15. That makes 65,536 possible birds. The page scores every one of them, so it knows each island’s ideal bird in advance.</p>
+        </div>
+        <div>
+          <h3>Selection</h3>
+          <p>Each generation the birds are ranked by the island’s fitness formula. The fitter half survive and the rest die. Survivors are paired at random and each pair has two chicks, so the population stays the same size. That is why it goes up in fours.</p>
+        </div>
+        <div>
+          <h3>Breeding and mutation</h3>
+          <p>Single-point crossover: both parents’ chromosomes are cut at the same random point and the tails swapped, giving two chicks. Then each of a chick’s bits has a small chance of flipping. Each island sets its own mutation rate.</p>
+        </div>
+        <div>
+          <h3>Gray code</h3>
+          <p>In plain binary, 7 is <code>0111</code> and 8 is <code>1000</code>: a one-step change in a trait needs all four bits to flip at once, so evolution can stall just short of the best bird (a “Hamming cliff”). In Gray code, neighbouring numbers always differ by one bit. Switch the encoding to see the difference.</p>
+        </div>
+        <div>
+          <h3>Fast and slow islands</h3>
+          <p>Smooth formulas with a high mutation rate evolve fast. Where genes are linked (brain and beak in the rainforest) or there is a false peak (running on Ember Isle), evolution is slower, and small populations can get stuck.</p>
+        </div>
+        <div>
+          <h3>Bigger populations</h3>
+          <p>More birds means more variety in the gene pool, so good combinations turn up sooner and false peaks are easier to escape. Use the sweep in the lab to see it.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <p>Darwin’s Finches: a genetic algorithm demo. Island photos go in <code>images/biomes/</code>.</p>
+  </footer>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="js/rng.js"></script>
+  <script src="js/ga.js"></script>
+  <script src="js/biomes.js"></script>
+  <script src="js/bird.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
