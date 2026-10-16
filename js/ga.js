@@ -3,7 +3,7 @@
 // A bird's chromosome is 16 bits, read as 4 genes of 4 bits each (0-15):
 //   bits  0-3  A  brain size
 //   bits  4-7  B  beak (0 = short and fat, 15 = long and thin)
-//   bits  8-11 C  feathers (0 = thin, 15 = thick)
+//   bits  8-11 C  wings (0 = short, 15 = long)
 //   bits 12-15 D  speed / leg length
 (function (F) {
   'use strict';
@@ -16,7 +16,7 @@
   const GENES = [
     { key: 'A', name: 'Brain', low: 'tiny', high: 'large' },
     { key: 'B', name: 'Beak', low: 'short & fat', high: 'long & thin' },
-    { key: 'C', name: 'Feathers', low: 'thin', high: 'thick' },
+    { key: 'C', name: 'Wings', low: 'short', high: 'long' },
     { key: 'D', name: 'Speed', low: 'short legs', high: 'long legs' }
   ];
 

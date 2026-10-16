@@ -187,7 +187,7 @@
   function tile(bird, rank, kind, isBest) {
     const p = GA.percentOfIdeal(state.run.landscape, bird.fitness);
     const g = bird.genes;
-    const label = kind + ', born generation ' + bird.born + '. Brain ' + g[0] + ', beak ' + g[1] + ', feathers ' + g[2] +
+    const label = kind + ', born generation ' + bird.born + '. Brain ' + g[0] + ', beak ' + g[1] + ', wings ' + g[2] +
       ', speed ' + g[3] + '. Fitness ' + fmt(bird.fitness);
     return '<div class="tile ' + kind + (isBest ? ' best' : '') + '" title="' + label + '">' +
       (rank ? '<span class="rank">#' + rank + '</span>' : '') +
